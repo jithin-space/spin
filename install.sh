@@ -8,7 +8,9 @@ apt-get install apache2 sqlite3 php7.0 php7.0-cli php7.0-common php7.0-sqlite3 p
 
 # step2 -- place the code in proper location
 
-tar -xf extras.tar.gz -C  /var/www/html
+mkdir /var/www/html/extras
+
+cp -av extras/ /var/www/html/extras/
 
 rm /etc/apache2/sites-enabled/000-default.conf 
 
