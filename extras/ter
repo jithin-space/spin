@@ -1,0 +1,90 @@
+<div class="panel panel-default">
+   <div class="panel-heading">IEP DETAILS</div>
+   <div class="panel-body">
+      <h3>Goal Area:{{$iep->goal_area_description}}</h3>
+      <h4>Long Term Objective: {{$iep->lto_description}}</h4>
+      <?php
+         $mil=$iep->created_at->{'$date'}->{'$numberLong'};
+         $seconds = $mil / 1000;
+         echo "<a style='float:right'>Created On:".date("F j, Y,", $seconds)."</a><br/>";
+         $mil=$iep->updated_at->{'$date'}->{'$numberLong'};
+         $seconds = $mil / 1000;
+         echo "<a style='float:right'>Last Update:".date("F j, Y", $seconds)."</a>";
+
+         $time = strtotime($iep->date->date);
+
+
+         ?><br/>
+      <h4> Topic</h4>
+      <a href="">{{$iep->description}}</a>
+      <h4> Status </h4>
+      {{$iep->status}}</h4>
+      <?php  echo "<a style='float:right'>Last Status Change:".date("F j, Y g:i A", $time)."</a>"; ?>
+   </div>
+   <div class="panel-footer">
+      <form action="{{ route('students.iep.destroy',[\Auth::user()->roles()->first()->name,$student->_id,$iep->_id->{'$oid'}])}}" method="post">
+         <input type="hidden" name="_method" value="DELETE">
+         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+         <a class="btn btn-labeled btn-default" href="{{route('students.iep.edit',[\Auth::user()->roles()->first()->name,$student->_id,$iep->_id->{'$oid'}])}}"><span class="btn-label"><i class="fa fa-pencil"></i></span>{{ 'edit' }}</a>
+         <button type="submit" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="fa fa-trash"></i></span>{{ 'delete' }}</button>
+      </form>
+   </div>
+</div>
+<div class="panel panel-default">
+   <div class="panel-heading">Comments</div>
+   <div class="panel-body">
+      <div class="actionBox">
+         <ul class="commentList">
+            <?php if(isset($iep->comments))
+               {
+                foreach($iep->comments as $comment)
+                {
+                  $mil=$comment->created_at->{'$date'}->{'$numberLong'};
+                  $seconds = $mil / 1000;
+                  if($comment->author== \Auth::user()->name)
+                  {
+                    echo '<li>
+                        <div class="commenterImage1">
+                          <img src="http://placekitten.com/45/45" />
+                        </div>
+                        <div class="commentText">
+                            <p class="">'.$comment->content.'</p> <span class="date sub-text"><a href="">'.$comment->author.'</a>&nbsp;On&nbsp;'.date("F j, Y,", $seconds).'</span>
+                        </div>
+                    </li>';
+                  }
+                  else
+                  {
+                    echo '<li>
+                        <div class="commenterImage2">
+                          <img src="http://placekitten.com/45/45" />
+                        </div>
+                        <div class="commentText">
+                            <p class="">'.$comment->content.'</p> <span class="date sub-text"><a href="">'.$comment->author.'</a>&nbsp;On&nbsp;'.date("F j, Y,", $seconds).'</span>
+                        </div>
+                    </li>';
+                  }
+
+                }
+                }
+               else
+               {
+                echo '<li>
+
+                    <div class="commentText">
+                        <p class="">No comments yet.....</p>
+                    </div>
+                </li>';
+               }
+
+               ?>
+         </ul>
+      </div>
+   </div>
+   <div class="panel-footer">
+      <form class="form" action="{{route('students.iep.comment.store',[\Auth::user()->roles()->first()->name,$student->_id,$iep->_id->{'$oid'}])}}" method="POST">
+         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+         <textarea class="form form-control" placeholder="Comments........" name="comment"></textarea>
+         <br/><button type="submit" class="btn btn-labeld btn-default">Post</button>
+      </form>
+   </div>
+</div>
