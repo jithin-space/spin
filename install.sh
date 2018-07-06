@@ -14,7 +14,7 @@ cp -av extras/ /var/www/html/extras/
 
 rm /etc/apache2/sites-enabled/000-default.conf 
 
-mv /var/www/html/extras/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+mv 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 a2enmod rewrite
 
