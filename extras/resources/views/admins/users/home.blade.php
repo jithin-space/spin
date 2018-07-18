@@ -23,9 +23,9 @@
           <input type="hidden" name="_method" value="DELETE">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <a class="btn btn-labeled btn-default" href="{{route('users.edit',[\Auth::user()->roles()->first()->name,$user->id])}}" <?php
-            if($user->name=="jithin") echo "disabled"; ?>><span class="btn-label"><i class="fa fa-pencil"></i></span>{{ 'edit' }}</a>
+            if($user->name=="admin") echo "disabled"; ?>><span class="btn-label"><i class="fa fa-pencil"></i></span>{{ 'edit' }}</a>
           <button type="submit" class="btn btn-labeled btn-danger" <?php
-            if($user->name=="jithin") echo "disabled"; ?>><span class="btn-label"><i class="fa fa-trash"></i></span>{{ 'delete' }}</button>
+            if($user->name=="admin") echo "disabled"; ?>><span class="btn-label"><i class="fa fa-trash"></i></span>{{ 'delete' }}</button>
         </form>
       </td>
     </tr>
